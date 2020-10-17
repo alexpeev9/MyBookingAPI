@@ -1,5 +1,4 @@
-﻿
-namespace DataStructure.Models
+﻿namespace DataStructure.Models
 {
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;

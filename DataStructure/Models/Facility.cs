@@ -1,9 +1,13 @@
 ﻿namespace DataStructure.Models
 {
     using System.Collections.Generic;
-    public class Facility : Model
+    using System.ComponentModel.DataAnnotations;
+
+    public class Facility : Model  // Air Conditioner, Swimming Pool, Gym, Nice View 
     {
+        [Required]
         public string Name { get; set; }
+        [Required]
         public string Icon { get; set; }
         
         // MARK:- Many-to-Many Relationships

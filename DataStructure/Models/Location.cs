@@ -3,7 +3,7 @@
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
-    public class Location : Model
+    public class Location : Model // Sea,Mountain,Country,City
     {
         [Required]
         public string Name { get; set; }
