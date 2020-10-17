@@ -11,7 +11,7 @@
 
         public DbSet<GuestHouse> GuestHouses { get; set; }
         public DbSet<Location> Locations { get; set; }
-        public DbSet<Type> Types { get; set; }
+        public DbSet<HouseType> HouseTypes { get; set; }
         public DbSet<Facility> Facilities { get; set; }
         public DbSet<NearbyAttraction> NearbyAttractions { get; set; }
         public DbSet<GuestHouseFacility> GuestHouseFacilities { get; set; }

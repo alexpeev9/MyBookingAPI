@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DataAccess;
+using DataAccess.Interfaces;
+using DataAccess.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -31,6 +34,17 @@ namespace MyBookingAPI
             services.AddDbContext<ApplicationDbContext>(options =>
               options.UseSqlServer(
                   Configuration.GetConnectionString("DefaultConnection")));
+
+
+            services.AddTransient<IFacilityRepository, FacilityRepository>();
+            services.AddTransient<IGuestHouseFacilityRepository, GuestHouseFacilityRepository>();
+            services.AddTransient<IGuestHouseNearbyAttractionRepository, GuestHouseNearbyAttractionRepository>();
+            services.AddTransient<IGuestHouseRepository, GuestHouseRepository>();
+            services.AddTransient<IHouseTypeRepository, HouseTypeRepository>();
+            services.AddTransient<ILocationRepository, LocationRepository>();
+            services.AddTransient<INearbyAttractionRepository, NearbyAttractionRepository>();
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

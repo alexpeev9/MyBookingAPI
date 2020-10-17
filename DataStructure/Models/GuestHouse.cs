@@ -19,7 +19,7 @@
         public int LocationId { get; set; }
         // MARK:- One-to-Many Relationships
         public virtual Location Location { get; set; }
-        public virtual Type Type { get; set; }
+        public virtual HouseType HouseType { get; set; }
         
         // MARK:- Many-to-Many Relationships
         public ICollection<GuestHouseFacility> GuestHouseFacility { get; set; }

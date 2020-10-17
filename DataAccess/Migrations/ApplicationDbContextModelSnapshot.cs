@@ -53,6 +53,9 @@ namespace DataAccess.Migrations
                     b.Property<int>("ContactNumber")
                         .HasColumnType("int");
 
+                    b.Property<int?>("HouseTypeID")
+                        .HasColumnType("int");
+
                     b.Property<int>("Info")
                         .HasColumnType("int");
 
@@ -69,14 +72,11 @@ namespace DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("TypeID")
-                        .HasColumnType("int");
-
                     b.HasKey("ID");
 
-                    b.HasIndex("LocationId");
+                    b.HasIndex("HouseTypeID");
 
-                    b.HasIndex("TypeID");
+                    b.HasIndex("LocationId");
 
                     b.ToTable("GuestHouses");
                 });
@@ -109,6 +109,26 @@ namespace DataAccess.Migrations
                     b.HasIndex("NearbyAttractionId");
 
                     b.ToTable("GuestHouseNearbyAttractions");
+                });
+
+            modelBuilder.Entity("DataStructure.Models.HouseType", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ImageUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("HouseTypes");
                 });
 
             modelBuilder.Entity("DataStructure.Models.Location", b =>
@@ -151,37 +171,17 @@ namespace DataAccess.Migrations
                     b.ToTable("NearbyAttractions");
                 });
 
-            modelBuilder.Entity("DataStructure.Models.Type", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("ImageUrl")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("ID");
-
-                    b.ToTable("Types");
-                });
-
             modelBuilder.Entity("DataStructure.Models.GuestHouse", b =>
                 {
+                    b.HasOne("DataStructure.Models.HouseType", "HouseType")
+                        .WithMany("GuestHouses")
+                        .HasForeignKey("HouseTypeID");
+
                     b.HasOne("DataStructure.Models.Location", "Location")
                         .WithMany("GuestHouses")
                         .HasForeignKey("LocationId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("DataStructure.Models.Type", "Type")
-                        .WithMany("GuestHouses")
-                        .HasForeignKey("TypeID");
                 });
 
             modelBuilder.Entity("DataStructure.Models.GuestHouseFacility", b =>
