@@ -2,12 +2,12 @@
 
 namespace DataAccess.Migrations
 {
-    public partial class InitialPush1 : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Amenities",
+                name: "Facilities",
                 columns: table => new
                 {
                     ID = table.Column<int>(nullable: false)
@@ -17,7 +17,7 @@ namespace DataAccess.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Amenities", x => x.ID);
+                    table.PrimaryKey("PK_Facilities", x => x.ID);
                 });
 
             migrationBuilder.CreateTable(
@@ -57,23 +57,23 @@ namespace DataAccess.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "GuestHouseAmenities",
+                name: "GuestHouseFacilities",
                 columns: table => new
                 {
                     GuestHouseId = table.Column<int>(nullable: false),
-                    AmenitieId = table.Column<int>(nullable: false)
+                    FacilityId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_GuestHouseAmenities", x => new { x.GuestHouseId, x.AmenitieId });
+                    table.PrimaryKey("PK_GuestHouseFacilities", x => new { x.GuestHouseId, x.FacilityId });
                     table.ForeignKey(
-                        name: "FK_GuestHouseAmenities_Amenities_AmenitieId",
-                        column: x => x.AmenitieId,
-                        principalTable: "Amenities",
+                        name: "FK_GuestHouseFacilities_Facilities_FacilityId",
+                        column: x => x.FacilityId,
+                        principalTable: "Facilities",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_GuestHouseAmenities_GuestHouses_GuestHouseId",
+                        name: "FK_GuestHouseFacilities_GuestHouses_GuestHouseId",
                         column: x => x.GuestHouseId,
                         principalTable: "GuestHouses",
                         principalColumn: "ID",
@@ -81,9 +81,9 @@ namespace DataAccess.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_GuestHouseAmenities_AmenitieId",
-                table: "GuestHouseAmenities",
-                column: "AmenitieId");
+                name: "IX_GuestHouseFacilities_FacilityId",
+                table: "GuestHouseFacilities",
+                column: "FacilityId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_GuestHouses_LocationId",
@@ -94,10 +94,10 @@ namespace DataAccess.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "GuestHouseAmenities");
+                name: "GuestHouseFacilities");
 
             migrationBuilder.DropTable(
-                name: "Amenities");
+                name: "Facilities");
 
             migrationBuilder.DropTable(
                 name: "GuestHouses");

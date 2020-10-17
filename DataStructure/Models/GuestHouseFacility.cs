@@ -1,14 +1,14 @@
 ﻿namespace DataStructure.Models
 {
     using System.ComponentModel.DataAnnotations;
-    public class GuestHouseAmenitie
+    public class GuestHouseFacility
     {
         [Required(ErrorMessage = "The field cannot be empty")]
         public int GuestHouseId { get; set; }
         public GuestHouse GuestHouse { get; set; }
 
         [Required(ErrorMessage = "The field cannot be empty")]
-        public int AmenitieId { get; set; }
-        public Amenitie Amenitie { get; set; }
+        public int FacilityId { get; set; }
+        public Facility Facility { get; set; }
     }
 }

@@ -15,6 +15,6 @@
         public virtual Location Location { get; set; }
 
         // MARK:- Many-to-Many Relationships
-        public ICollection<GuestHouseAmenitie> GuestHouseAmenities { get; set; }
+        public ICollection<GuestHouseFacility> GuestHouseFacility { get; set; }
     }
 }

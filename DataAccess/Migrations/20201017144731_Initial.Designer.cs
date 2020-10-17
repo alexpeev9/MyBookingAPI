@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20201017132541_InitialPush1")]
-    partial class InitialPush1
+    [Migration("20201017144731_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -20,7 +20,7 @@ namespace DataAccess.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("DataStructure.Models.Amenitie", b =>
+            modelBuilder.Entity("DataStructure.Models.Facility", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
@@ -35,7 +35,7 @@ namespace DataAccess.Migrations
 
                     b.HasKey("ID");
 
-                    b.ToTable("Amenities");
+                    b.ToTable("Facilities");
                 });
 
             modelBuilder.Entity("DataStructure.Models.GuestHouse", b =>
@@ -65,19 +65,19 @@ namespace DataAccess.Migrations
                     b.ToTable("GuestHouses");
                 });
 
-            modelBuilder.Entity("DataStructure.Models.GuestHouseAmenitie", b =>
+            modelBuilder.Entity("DataStructure.Models.GuestHouseFacility", b =>
                 {
                     b.Property<int>("GuestHouseId")
                         .HasColumnType("int");
 
-                    b.Property<int>("AmenitieId")
+                    b.Property<int>("FacilityId")
                         .HasColumnType("int");
 
-                    b.HasKey("GuestHouseId", "AmenitieId");
+                    b.HasKey("GuestHouseId", "FacilityId");
 
-                    b.HasIndex("AmenitieId");
+                    b.HasIndex("FacilityId");
 
-                    b.ToTable("GuestHouseAmenities");
+                    b.ToTable("GuestHouseFacilities");
                 });
 
             modelBuilder.Entity("DataStructure.Models.Location", b =>
@@ -109,16 +109,16 @@ namespace DataAccess.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("DataStructure.Models.GuestHouseAmenitie", b =>
+            modelBuilder.Entity("DataStructure.Models.GuestHouseFacility", b =>
                 {
-                    b.HasOne("DataStructure.Models.Amenitie", "Amenitie")
-                        .WithMany("GuestHouseAmenities")
-                        .HasForeignKey("AmenitieId")
+                    b.HasOne("DataStructure.Models.Facility", "Facility")
+                        .WithMany("GuestHouseFacility")
+                        .HasForeignKey("FacilityId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("DataStructure.Models.GuestHouse", "GuestHouse")
-                        .WithMany("GuestHouseAmenities")
+                        .WithMany("GuestHouseFacility")
                         .HasForeignKey("GuestHouseId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
