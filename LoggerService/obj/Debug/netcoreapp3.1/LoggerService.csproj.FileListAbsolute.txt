@@ -1,5 +1,0 @@
-C:\Users\User\Desktop\MyBookingAPI\MyBookingAPI\LoggerService\bin\Debug\netcoreapp3.1\LoggerService.deps.json
-C:\Users\User\Desktop\MyBookingAPI\MyBookingAPI\LoggerService\bin\Debug\netcoreapp3.1\LoggerService.dll
-C:\Users\User\Desktop\MyBookingAPI\MyBookingAPI\LoggerService\obj\Debug\netcoreapp3.1\LoggerService.csprojAssemblyReference.cache
-C:\Users\User\Desktop\MyBookingAPI\MyBookingAPI\LoggerService\obj\Debug\netcoreapp3.1\LoggerService.AssemblyInfoInputs.cache
-C:\Users\User\Desktop\MyBookingAPI\MyBookingAPI\LoggerService\obj\Debug\netcoreapp3.1\LoggerService.AssemblyInfo.cs
