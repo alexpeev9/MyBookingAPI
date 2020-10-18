@@ -1,17 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
-using DataAccess.Interfaces;
-using DataAccess.Repositories;
-using DataAccess.RepositoryWrapper;
-using DataStructure.Models;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-
-namespace MyBookingAPI.Controllers
+﻿namespace MyBookingAPI.Controllers
 {
+    using DataAccess.RepositoryWrapper;
+    using DataStructure.Models;
+    using Microsoft.AspNetCore.Mvc;
+
     [ApiController]
     [Route("[controller]")]
     public class LocationController : ControllerBase
@@ -30,7 +22,7 @@ namespace MyBookingAPI.Controllers
                 return Ok(locations);
         }
         [HttpPost]
-        public IActionResult CreateOwner(Location location)
+        public IActionResult CreateLocation(Location location)
         {
             _repository.Location.CreateLocation(location);
             _repository.Save();
@@ -45,7 +37,7 @@ namespace MyBookingAPI.Controllers
             return NoContent();
         }
         [HttpDelete("{id}")]
-        public IActionResult DeleteOwner(int id)
+        public IActionResult DeleteLocation (int id)
         {
            var location = _repository.Location.GetLocationById(id);
            _repository.Location.DeleteLocation(location);

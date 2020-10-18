@@ -2,6 +2,7 @@
 {
     using DataAccess.RepositoryBase;
     using DataStructure.Models;
+    using System;
     using System.Collections.Generic;
     public interface ILocationRepository : IRepositoryBase<Location>
     {
