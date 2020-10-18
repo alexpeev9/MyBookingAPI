@@ -1,17 +1,40 @@
 ﻿namespace DataAccess.Repositories
 {
     using DataAccess.Interfaces;
+    using DataAccess.RepositoryBase;
     using DataStructure.Models;
     using Microsoft.EntityFrameworkCore;
     using System.Collections.Generic;
+    using System.Linq;
 
-    public class LocationRepository : ILocationRepository
+    public class LocationRepository : RepositoryBase<Location>, ILocationRepository
     {
-        private readonly ApplicationDbContext _appDbContext;
-        public LocationRepository(ApplicationDbContext appDbContext)
+        public LocationRepository(ApplicationDbContext _appDbContext): base(_appDbContext)
         {
-            _appDbContext = appDbContext;
         }
-        public IEnumerable<Location> Locations => _appDbContext.Locations.Include(c => c.Name);
+        public IEnumerable<Location> GetAllLocations()
+        {
+            return FindAll()
+                .OrderBy(ow => ow.Name)
+                .ToList();
+        }
+        public Location GetLocationById(int ID)
+        {
+            return FindByCondition(location => location.ID.Equals(ID))
+                .Include(ac => ac.ImageUrl)
+                .FirstOrDefault();
+        }
+        public void CreateLocation(Location location)
+        {
+            Create(location);
+        }
+        public void UpdateLocation(Location location)
+        {
+            Update(location);
+        }
+        public void DeleteLocation(Location location)
+        {
+            Delete(location);
+        }
     }
 }

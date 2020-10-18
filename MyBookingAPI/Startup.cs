@@ -1,23 +1,24 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using DataAccess;
-using DataAccess.Interfaces;
-using DataAccess.Repositories;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-
 namespace MyBookingAPI
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using AutoMapper;
+    using DataAccess;
+    using DataAccess.Interfaces;
+    using DataAccess.Repositories;
+    using DataAccess.RepositoryWrapper;
+    using Microsoft.AspNetCore.Builder;
+    using Microsoft.AspNetCore.Hosting;
+    using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.HttpsPolicy;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.EntityFrameworkCore;
+    using Microsoft.Extensions.Configuration;
+    using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Hosting;
+    using Microsoft.Extensions.Logging;
     public class Startup
     {
         public Startup(IConfiguration configuration)
@@ -35,7 +36,6 @@ namespace MyBookingAPI
               options.UseSqlServer(
                   Configuration.GetConnectionString("DefaultConnection")));
 
-
             services.AddTransient<IFacilityRepository, FacilityRepository>();
             services.AddTransient<IGuestHouseFacilityRepository, GuestHouseFacilityRepository>();
             services.AddTransient<IGuestHouseNearbyAttractionRepository, GuestHouseNearbyAttractionRepository>();
@@ -44,11 +44,11 @@ namespace MyBookingAPI
             services.AddTransient<ILocationRepository, LocationRepository>();
             services.AddTransient<INearbyAttractionRepository, NearbyAttractionRepository>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddScoped<IRepositoryWrapper, RepositoryWrapper>();
 
         }
-
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IServiceProvider serviceProvider, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -65,7 +65,7 @@ namespace MyBookingAPI
             {
                 endpoints.MapControllers();
             });
-            //DbInitializer.Seed(ServiceProvider.GetRequiredService<ApplicationDbContext>());
+            DbInitializer.Seed(serviceProvider.GetRequiredService<ApplicationDbContext>());
         }
     }
 }

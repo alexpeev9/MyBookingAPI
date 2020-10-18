@@ -7,9 +7,9 @@
         [Required]
         public string Name { get; set; }
         [Required]
-        public int ContactNumber { get; set; }
+        public long ContactNumber { get; set; }
         [Required]
-        public int Info { get; set; }
+        public string Info { get; set; }
         [Required]
         public bool IsPremium { get; set; }
         [Required]

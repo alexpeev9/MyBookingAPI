@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20201017155952_Initial")]
-    partial class Initial
+    [Migration("20201018084344_UpdateDb")]
+    partial class UpdateDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -52,14 +52,15 @@ namespace DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("ContactNumber")
-                        .HasColumnType("int");
+                    b.Property<long>("ContactNumber")
+                        .HasColumnType("bigint");
 
                     b.Property<int?>("HouseTypeID")
                         .HasColumnType("int");
 
-                    b.Property<int>("Info")
-                        .HasColumnType("int");
+                    b.Property<string>("Info")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsHot")
                         .HasColumnType("bit");

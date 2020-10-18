@@ -2,7 +2,7 @@
 
 namespace DataAccess.Migrations
 {
-    public partial class Initial : Migration
+    public partial class InitialD : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -69,8 +69,8 @@ namespace DataAccess.Migrations
                     ID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(nullable: false),
-                    ContactNumber = table.Column<int>(nullable: false),
-                    Info = table.Column<int>(nullable: false),
+                    ContactNumber = table.Column<long>(nullable: false),
+                    Info = table.Column<string>(nullable: false),
                     IsPremium = table.Column<bool>(nullable: false),
                     IsHot = table.Column<bool>(nullable: false),
                     Address = table.Column<string>(nullable: false),

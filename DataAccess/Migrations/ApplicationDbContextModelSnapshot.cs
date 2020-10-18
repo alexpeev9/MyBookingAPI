@@ -50,14 +50,15 @@ namespace DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("ContactNumber")
-                        .HasColumnType("int");
+                    b.Property<long>("ContactNumber")
+                        .HasColumnType("bigint");
 
                     b.Property<int?>("HouseTypeID")
                         .HasColumnType("int");
 
-                    b.Property<int>("Info")
-                        .HasColumnType("int");
+                    b.Property<string>("Info")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsHot")
                         .HasColumnType("bit");
