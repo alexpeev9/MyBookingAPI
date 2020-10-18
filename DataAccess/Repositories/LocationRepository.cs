@@ -21,7 +21,6 @@
         public Location GetLocationById(int ID)
         {
             return FindByCondition(location => location.ID.Equals(ID))
-                .Include(ac => ac.ImageUrl)
                 .FirstOrDefault();
         }
         public void CreateLocation(Location location)
