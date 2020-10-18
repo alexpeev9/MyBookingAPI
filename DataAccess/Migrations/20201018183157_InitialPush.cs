@@ -2,124 +2,100 @@
 
 namespace DataAccess.Migrations
 {
-    public partial class InitialD : Migration
+    public partial class InitialPush : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Facilities",
+                name: "facility",
                 columns: table => new
                 {
                     ID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(nullable: false),
+                    Name = table.Column<string>(maxLength: 100, nullable: false),
                     Icon = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Facilities", x => x.ID);
+                    table.PrimaryKey("PK_facility", x => x.ID);
                 });
 
             migrationBuilder.CreateTable(
-                name: "HouseTypes",
+                name: "housetype",
                 columns: table => new
                 {
                     ID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(nullable: false),
+                    Name = table.Column<string>(maxLength: 100, nullable: false),
                     ImageUrl = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_HouseTypes", x => x.ID);
+                    table.PrimaryKey("PK_housetype", x => x.ID);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Locations",
+                name: "location",
                 columns: table => new
                 {
                     ID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(nullable: false),
+                    Name = table.Column<string>(maxLength: 100, nullable: false),
                     ImageUrl = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Locations", x => x.ID);
+                    table.PrimaryKey("PK_location", x => x.ID);
                 });
 
             migrationBuilder.CreateTable(
-                name: "NearbyAttractions",
+                name: "nearbyattraction",
                 columns: table => new
                 {
                     ID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(nullable: false),
+                    Name = table.Column<string>(maxLength: 100, nullable: false),
                     ImageUrl = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_NearbyAttractions", x => x.ID);
+                    table.PrimaryKey("PK_nearbyattraction", x => x.ID);
                 });
 
             migrationBuilder.CreateTable(
-                name: "GuestHouses",
+                name: "guesthouse",
                 columns: table => new
                 {
                     ID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(nullable: false),
+                    Name = table.Column<string>(maxLength: 100, nullable: false),
                     ContactNumber = table.Column<long>(nullable: false),
-                    Info = table.Column<string>(nullable: false),
+                    Info = table.Column<string>(maxLength: 150, nullable: false),
                     IsPremium = table.Column<bool>(nullable: false),
                     IsHot = table.Column<bool>(nullable: false),
-                    Address = table.Column<string>(nullable: false),
+                    Address = table.Column<string>(maxLength: 100, nullable: false),
                     LocationId = table.Column<int>(nullable: false),
                     HouseTypeID = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_GuestHouses", x => x.ID);
+                    table.PrimaryKey("PK_guesthouse", x => x.ID);
                     table.ForeignKey(
-                        name: "FK_GuestHouses_HouseTypes_HouseTypeID",
+                        name: "FK_guesthouse_housetype_HouseTypeID",
                         column: x => x.HouseTypeID,
-                        principalTable: "HouseTypes",
+                        principalTable: "housetype",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_GuestHouses_Locations_LocationId",
+                        name: "FK_guesthouse_location_LocationId",
                         column: x => x.LocationId,
-                        principalTable: "Locations",
+                        principalTable: "location",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "GuestHouseFacilities",
-                columns: table => new
-                {
-                    GuestHouseId = table.Column<int>(nullable: false),
-                    FacilityId = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_GuestHouseFacilities", x => new { x.GuestHouseId, x.FacilityId });
-                    table.ForeignKey(
-                        name: "FK_GuestHouseFacilities_Facilities_FacilityId",
-                        column: x => x.FacilityId,
-                        principalTable: "Facilities",
-                        principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_GuestHouseFacilities_GuestHouses_GuestHouseId",
-                        column: x => x.GuestHouseId,
-                        principalTable: "GuestHouses",
-                        principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "GuestHouseNearbyAttractions",
+                name: "houseattraction",
                 columns: table => new
                 {
                     GuestHouseId = table.Column<int>(nullable: false),
@@ -127,64 +103,88 @@ namespace DataAccess.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_GuestHouseNearbyAttractions", x => new { x.GuestHouseId, x.NearbyAttractionId });
+                    table.PrimaryKey("PK_houseattraction", x => new { x.GuestHouseId, x.NearbyAttractionId });
                     table.ForeignKey(
-                        name: "FK_GuestHouseNearbyAttractions_GuestHouses_GuestHouseId",
+                        name: "FK_houseattraction_guesthouse_GuestHouseId",
                         column: x => x.GuestHouseId,
-                        principalTable: "GuestHouses",
+                        principalTable: "guesthouse",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_GuestHouseNearbyAttractions_NearbyAttractions_NearbyAttractionId",
+                        name: "FK_houseattraction_nearbyattraction_NearbyAttractionId",
                         column: x => x.NearbyAttractionId,
-                        principalTable: "NearbyAttractions",
+                        principalTable: "nearbyattraction",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "housefacility",
+                columns: table => new
+                {
+                    GuestHouseId = table.Column<int>(nullable: false),
+                    FacilityId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_housefacility", x => new { x.GuestHouseId, x.FacilityId });
+                    table.ForeignKey(
+                        name: "FK_housefacility_facility_FacilityId",
+                        column: x => x.FacilityId,
+                        principalTable: "facility",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_housefacility_guesthouse_GuestHouseId",
+                        column: x => x.GuestHouseId,
+                        principalTable: "guesthouse",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_GuestHouseFacilities_FacilityId",
-                table: "GuestHouseFacilities",
-                column: "FacilityId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_GuestHouseNearbyAttractions_NearbyAttractionId",
-                table: "GuestHouseNearbyAttractions",
-                column: "NearbyAttractionId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_GuestHouses_HouseTypeID",
-                table: "GuestHouses",
+                name: "IX_guesthouse_HouseTypeID",
+                table: "guesthouse",
                 column: "HouseTypeID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_GuestHouses_LocationId",
-                table: "GuestHouses",
+                name: "IX_guesthouse_LocationId",
+                table: "guesthouse",
                 column: "LocationId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_houseattraction_NearbyAttractionId",
+                table: "houseattraction",
+                column: "NearbyAttractionId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_housefacility_FacilityId",
+                table: "housefacility",
+                column: "FacilityId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "GuestHouseFacilities");
+                name: "houseattraction");
 
             migrationBuilder.DropTable(
-                name: "GuestHouseNearbyAttractions");
+                name: "housefacility");
 
             migrationBuilder.DropTable(
-                name: "Facilities");
+                name: "nearbyattraction");
 
             migrationBuilder.DropTable(
-                name: "GuestHouses");
+                name: "facility");
 
             migrationBuilder.DropTable(
-                name: "NearbyAttractions");
+                name: "guesthouse");
 
             migrationBuilder.DropTable(
-                name: "HouseTypes");
+                name: "housetype");
 
             migrationBuilder.DropTable(
-                name: "Locations");
+                name: "location");
         }
     }
 }

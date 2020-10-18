@@ -32,11 +32,12 @@ namespace DataAccess.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(100)")
+                        .HasMaxLength(100);
 
                     b.HasKey("ID");
 
-                    b.ToTable("Facilities");
+                    b.ToTable("facility");
                 });
 
             modelBuilder.Entity("DataStructure.Models.GuestHouse", b =>
@@ -48,7 +49,8 @@ namespace DataAccess.Migrations
 
                     b.Property<string>("Address")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(100)")
+                        .HasMaxLength(100);
 
                     b.Property<long>("ContactNumber")
                         .HasColumnType("bigint");
@@ -58,7 +60,8 @@ namespace DataAccess.Migrations
 
                     b.Property<string>("Info")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(150)")
+                        .HasMaxLength(150);
 
                     b.Property<bool>("IsHot")
                         .HasColumnType("bit");
@@ -71,7 +74,8 @@ namespace DataAccess.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(100)")
+                        .HasMaxLength(100);
 
                     b.HasKey("ID");
 
@@ -79,7 +83,7 @@ namespace DataAccess.Migrations
 
                     b.HasIndex("LocationId");
 
-                    b.ToTable("GuestHouses");
+                    b.ToTable("guesthouse");
                 });
 
             modelBuilder.Entity("DataStructure.Models.GuestHouseFacility", b =>
@@ -94,7 +98,7 @@ namespace DataAccess.Migrations
 
                     b.HasIndex("FacilityId");
 
-                    b.ToTable("GuestHouseFacilities");
+                    b.ToTable("housefacility");
                 });
 
             modelBuilder.Entity("DataStructure.Models.GuestHouseNearbyAttraction", b =>
@@ -109,7 +113,7 @@ namespace DataAccess.Migrations
 
                     b.HasIndex("NearbyAttractionId");
 
-                    b.ToTable("GuestHouseNearbyAttractions");
+                    b.ToTable("houseattraction");
                 });
 
             modelBuilder.Entity("DataStructure.Models.HouseType", b =>
@@ -125,11 +129,12 @@ namespace DataAccess.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(100)")
+                        .HasMaxLength(100);
 
                     b.HasKey("ID");
 
-                    b.ToTable("HouseTypes");
+                    b.ToTable("housetype");
                 });
 
             modelBuilder.Entity("DataStructure.Models.Location", b =>
@@ -145,11 +150,12 @@ namespace DataAccess.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(100)")
+                        .HasMaxLength(100);
 
                     b.HasKey("ID");
 
-                    b.ToTable("Locations");
+                    b.ToTable("location");
                 });
 
             modelBuilder.Entity("DataStructure.Models.NearbyAttraction", b =>
@@ -165,11 +171,12 @@ namespace DataAccess.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(100)")
+                        .HasMaxLength(100);
 
                     b.HasKey("ID");
 
-                    b.ToTable("NearbyAttractions");
+                    b.ToTable("nearbyattraction");
                 });
 
             modelBuilder.Entity("DataStructure.Models.GuestHouse", b =>

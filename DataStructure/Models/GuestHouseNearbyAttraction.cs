@@ -1,6 +1,9 @@
 ﻿namespace DataStructure.Models
 {
     using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
+
+    [Table("houseattraction")]
     public class GuestHouseNearbyAttraction
     {
         [Required(ErrorMessage = "The field cannot be empty")]

@@ -2,6 +2,7 @@ namespace MyBookingAPI
 {
     using System;
     using System.Collections.Generic;
+    using System.IO;
     using System.Linq;
     using System.Threading.Tasks;
     using AutoMapper;
@@ -19,6 +20,7 @@ namespace MyBookingAPI
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
     using Microsoft.Extensions.Logging;
+
     public class Startup
     {
         public Startup(IConfiguration configuration)

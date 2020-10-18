@@ -14,7 +14,6 @@
         {
             _repository = repository;
         }
-
         [HttpGet]
         public IActionResult GetAllLocations()
         {
@@ -26,13 +25,15 @@
         {
             _repository.Location.CreateLocation(location);
             _repository.Save();
-            return CreatedAtRoute("LocationById", new { location.ID }, location);
+            return CreatedAtRoute(new { location.ID }, location);
         }
         [HttpPut("{id}")]
-        public IActionResult UpdateLocation(int id)
+        public IActionResult UpdateLocation(int id, Location location)
         {
-            var location = _repository.Location.GetLocationById(id);
-            _repository.Location.UpdateLocation(location);
+            var oldlocation = _repository.Location.GetLocationById(id);
+            location.ID = oldlocation.ID;
+            _repository.Location.DeleteLocation(oldlocation);
+            _repository.Location.CreateLocation(location);
             _repository.Save();
             return NoContent();
         }

@@ -2,12 +2,15 @@
 {
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
 
-    public class Location : Model // Sea,Mountain,Country,City
+    [Table("location")]
+    public class Location : Model
     {
-        [Required]
+        [Required(ErrorMessage = "Name is required")]
+        [StringLength(100, ErrorMessage = "Name cannot be longer than 40 characters")]
         public string Name { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Image is required")]
         public string ImageUrl { get; set; }
         public ICollection<GuestHouse> GuestHouses { get; set; }
     }
