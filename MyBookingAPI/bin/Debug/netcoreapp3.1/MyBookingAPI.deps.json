@@ -24,6 +24,7 @@
     ".NETCoreApp,Version=v3.1": {
       "MyBookingAPI/1.0.0": {
         "dependencies": {
+          "AutoMapper.Extensions.Microsoft.DependencyInjection": "8.1.0",
           "DataAccess": "1.0.0",
           "Microsoft.EntityFrameworkCore.Design": "3.1.9",
           "Microsoft.EntityFrameworkCore.Sqlite": "3.1.9",

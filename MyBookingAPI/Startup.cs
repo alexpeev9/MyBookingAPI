@@ -47,6 +47,7 @@ namespace MyBookingAPI
             services.AddTransient<INearbyAttractionRepository, NearbyAttractionRepository>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddScoped<IRepositoryWrapper, RepositoryWrapper>();
+            services.AddAutoMapper(typeof(Startup));
 
         }
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

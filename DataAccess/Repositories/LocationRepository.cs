@@ -9,7 +9,7 @@
 
     public class LocationRepository : RepositoryBase<Location>, ILocationRepository
     {
-        public LocationRepository(ApplicationDbContext _appDbContext): base(_appDbContext)
+        public LocationRepository(ApplicationDbContext appDbContext): base(appDbContext)
         {
         }
         public IEnumerable<Location> GetAllLocations()
