@@ -10,6 +10,7 @@ namespace MyBookingAPI
     using DataAccess.Interfaces;
     using DataAccess.Repositories;
     using DataAccess.RepositoryWrapper;
+    using DataServices.LocationService;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Http;
@@ -47,6 +48,7 @@ namespace MyBookingAPI
             services.AddTransient<INearbyAttractionRepository, NearbyAttractionRepository>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddScoped<IRepositoryWrapper, RepositoryWrapper>();
+            services.AddScoped<ILocationService, LocationService>();
             services.AddAutoMapper(typeof(Startup));
 
         }
