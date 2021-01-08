@@ -1,0 +1,4 @@
+﻿[*.cs]
+
+# AD0001: Analyzer Failure
+dotnet_diagnostic.AD0001.severity = none

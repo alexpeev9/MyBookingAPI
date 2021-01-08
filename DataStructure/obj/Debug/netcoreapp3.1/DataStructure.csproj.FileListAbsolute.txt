@@ -1,9 +1,0 @@
-C:\Users\User\Desktop\MyBookingAPI\MyBookingAPI\DataStructure\bin\Debug\netcoreapp3.1\DataStructure.deps.json
-C:\Users\User\Desktop\MyBookingAPI\MyBookingAPI\DataStructure\bin\Debug\netcoreapp3.1\DataStructure.dll
-C:\Users\User\Desktop\MyBookingAPI\MyBookingAPI\DataStructure\bin\Debug\netcoreapp3.1\DataStructure.pdb
-C:\Users\User\Desktop\MyBookingAPI\MyBookingAPI\DataStructure\obj\Debug\netcoreapp3.1\DataStructure.csproj.CoreCompileInputs.cache
-C:\Users\User\Desktop\MyBookingAPI\MyBookingAPI\DataStructure\obj\Debug\netcoreapp3.1\DataStructure.AssemblyInfoInputs.cache
-C:\Users\User\Desktop\MyBookingAPI\MyBookingAPI\DataStructure\obj\Debug\netcoreapp3.1\DataStructure.AssemblyInfo.cs
-C:\Users\User\Desktop\MyBookingAPI\MyBookingAPI\DataStructure\obj\Debug\netcoreapp3.1\DataStructure.dll
-C:\Users\User\Desktop\MyBookingAPI\MyBookingAPI\DataStructure\obj\Debug\netcoreapp3.1\DataStructure.pdb
-C:\Users\User\Desktop\MyBookingAPI\MyBookingAPI\DataStructure\obj\Debug\netcoreapp3.1\DataStructure.csprojAssemblyReference.cache

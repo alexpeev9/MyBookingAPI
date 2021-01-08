@@ -1,0 +1,14 @@
+C:\Users\User\Desktop\Final\BookingAPI\BookingAPI.Services\bin\Debug\netcoreapp3.1\BookingAPI.Services.deps.json
+C:\Users\User\Desktop\Final\BookingAPI\BookingAPI.Services\bin\Debug\netcoreapp3.1\BookingAPI.Services.dll
+C:\Users\User\Desktop\Final\BookingAPI\BookingAPI.Services\bin\Debug\netcoreapp3.1\BookingAPI.Services.pdb
+C:\Users\User\Desktop\Final\BookingAPI\BookingAPI.Services\obj\Debug\netcoreapp3.1\BookingAPI.Services.csprojAssemblyReference.cache
+C:\Users\User\Desktop\Final\BookingAPI\BookingAPI.Services\obj\Debug\netcoreapp3.1\BookingAPI.Services.AssemblyInfoInputs.cache
+C:\Users\User\Desktop\Final\BookingAPI\BookingAPI.Services\obj\Debug\netcoreapp3.1\BookingAPI.Services.AssemblyInfo.cs
+C:\Users\User\Desktop\Final\BookingAPI\BookingAPI.Services\obj\Debug\netcoreapp3.1\BookingAPI.Services.csproj.CoreCompileInputs.cache
+C:\Users\User\Desktop\Final\BookingAPI\BookingAPI.Services\obj\Debug\netcoreapp3.1\BookingAPI.Services.csproj.CopyComplete
+C:\Users\User\Desktop\Final\BookingAPI\BookingAPI.Services\obj\Debug\netcoreapp3.1\BookingAPI.Services.dll
+C:\Users\User\Desktop\Final\BookingAPI\BookingAPI.Services\obj\Debug\netcoreapp3.1\BookingAPI.Services.pdb
+C:\Users\User\Desktop\Final\BookingAPI\BookingAPI.Services\bin\Debug\netcoreapp3.1\BookingApi.Data.dll
+C:\Users\User\Desktop\Final\BookingAPI\BookingAPI.Services\bin\Debug\netcoreapp3.1\BookingAPI.Models.dll
+C:\Users\User\Desktop\Final\BookingAPI\BookingAPI.Services\bin\Debug\netcoreapp3.1\BookingApi.Data.pdb
+C:\Users\User\Desktop\Final\BookingAPI\BookingAPI.Services\bin\Debug\netcoreapp3.1\BookingAPI.Models.pdb
