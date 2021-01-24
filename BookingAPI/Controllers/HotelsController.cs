@@ -14,17 +14,15 @@
 
     [ApiController]
     [Route("[controller]")]
-    public class HotelController : ControllerBase
+    public class HotelsController : ControllerBase
     {
         private readonly IHotelService _hotelService;
         private readonly IMapper _mapper;
-        private readonly ApplicationDbContext _appDbContext;
 
-        public HotelController(IHotelService hotelService, IMapper mapper, ApplicationDbContext appDbContext)
+        public HotelsController(IHotelService hotelService, IMapper mapper)
         {
             _hotelService = hotelService;
             _mapper = mapper;
-            _appDbContext = appDbContext;
         }
 
         [AllowAnonymous]
@@ -57,7 +55,7 @@
             {
                 // create user
                 _hotelService.Create(hotel, currentUserId);
-                return Ok($"You have created successfully a facility. \n Name: {hotel.Name} \n Info: {hotel.User} ");
+                return Ok($"You have created successfully a hotel. \n Name: {hotel.Name} ");
             }
             catch (AppException ex)
             {
@@ -69,7 +67,7 @@
         [HttpPut("{id}")]
         public IActionResult Update(int id, [FromBody] HotelUpdateModel model)
         {
-            var hotelChecker = _appDbContext.Hotels.Include(x => x.User).SingleOrDefault(x => x.Id == id);
+            var hotelChecker = _hotelService.FindHotel(id);
             var currentUserId = int.Parse(User.Identity.Name);
             if (currentUserId != hotelChecker.User.Id && !User.IsInRole("Admin"))
                 return Forbid();
@@ -89,12 +87,11 @@
             }
         }
 
-        // raboti 
         [Authorize]
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            var hotel = _appDbContext.Hotels.Include(x => x.User).SingleOrDefault(x => x.Id == id);
+            var hotel = _hotelService.FindHotel(id);
             var currentUserId = int.Parse(User.Identity.Name);
             if (currentUserId != hotel.User.Id && !User.IsInRole("Admin"))
                 return Forbid();

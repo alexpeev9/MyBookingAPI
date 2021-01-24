@@ -1,5 +1,6 @@
 ﻿using BookingApi.Data;
 using BookingApi.Data.Exceptions;
+using BookingApi.Data.Repositories.Interfaces;
 using BookingAPI.Models.DtoModels.FacilityDto;
 using BookingAPI.Models.Models;
 using BookingAPI.Services.Interfaces;
@@ -12,49 +13,26 @@ namespace BookingAPI.Services
 {
     public class FacilityService : IFacilityService
     {
-        private readonly ApplicationDbContext _appDbContext;
+        private readonly IFacilityRepository _facilityRepository;
 
-
-        public FacilityService(ApplicationDbContext appDbContext)
+        public FacilityService(IFacilityRepository facilityRepository)
         {
-            _appDbContext = appDbContext;
+            _facilityRepository = facilityRepository;
         }
 
-        public List<FacilityModel> GetAll()
-        {
-                var facilities = _appDbContext.Facilities
-                    .Include(x => x.HotelFacilities)
-                    .ThenInclude(x => x.Hotel)
-                    .Select(x => new FacilityModel()
-                    {
-                        Id = x.Id,
-                        Name = x.Name,
-                        Info = x.Info,
-                        Hotels = x.HotelFacilities.Select(z => z.Hotel.Name).ToList(),
-                    }).ToList();
+        public List<FacilityModel> GetAll() => _facilityRepository.GetAll;
 
-                return facilities;
-        }
-
-        public FacilityModel GetById(int id)
-        {
-            var facilities = _appDbContext.Facilities
-                .Include(x => x.HotelFacilities)
-                .ThenInclude(x => x.Hotel)
-                .Select(x => new FacilityModel()
-                {
-                    Id = x.Id,
-                    Name = x.Name,
-                    Info = x.Info,
-                    Hotels = x.HotelFacilities.Select(z => z.Hotel.Name).ToList()
-                }).Where( x => x.Id == id).SingleOrDefault();
-
-            return facilities;
-        }
+        public FacilityModel GetById(int id) => _facilityRepository.GetById(id);
         
         public Facility Create(Facility facility)
         {
-            var facilities = _appDbContext.Facilities
+            if (string.IsNullOrWhiteSpace(facility.Name))
+                throw new AppException("Name is required");
+
+            if (string.IsNullOrWhiteSpace(facility.Info))
+                throw new AppException("Info is required");
+
+            var facilities = _facilityRepository.Facilities
                 .Include(x => x.HotelFacilities)
                 .ThenInclude(x => x.Hotel)
                 .Select(x => new FacilityCreateModel()
@@ -62,27 +40,32 @@ namespace BookingAPI.Services
                     Name = x.Name,
                     Info = x.Info,
                 }).Where(x => x.Name == facility.Name).SingleOrDefault();
-            _appDbContext.Facilities.Add(facility);
-            _appDbContext.SaveChanges();
+            _facilityRepository.Facilities.Add(facility);
+            _facilityRepository.Save();
             return facility;
         }
 
         public void Update(Facility facilityParm)
         {
-            var facility = _appDbContext.Facilities.Find(facilityParm.Id);
-            facility.Name = facilityParm.Name;
-            facility.Info = facilityParm.Info;
-            _appDbContext.Facilities.Update(facility);
-            _appDbContext.SaveChanges();
+            var facility = _facilityRepository.Facilities.Find(facilityParm.Id);
+
+            if (!string.IsNullOrWhiteSpace(facilityParm.Name))
+                facility.Name = facilityParm.Name;
+
+            if (!string.IsNullOrWhiteSpace(facilityParm.Info))
+                facility.Info = facilityParm.Info;
+
+            _facilityRepository.Facilities.Update(facility);
+            _facilityRepository.Save();
         }
 
         public void Delete(int id)
         {
-            var facility = _appDbContext.Facilities.Find(id);
+            var facility = _facilityRepository.Facilities.Find(id);
             if (facility != null)
             {
-                _appDbContext.Facilities.Remove(facility);
-                _appDbContext.SaveChanges();
+                _facilityRepository.Facilities.Remove(facility);
+                _facilityRepository.Save();
             }
         }
     }

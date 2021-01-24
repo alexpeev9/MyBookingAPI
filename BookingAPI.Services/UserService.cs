@@ -1,11 +1,11 @@
 ﻿namespace BookingAPI.Services
 {
-    using BookingApi.Data;
     using BookingApi.Data.Exceptions;
+    using BookingApi.Data.Repositories.Interfaces;
     using BookingAPI.Models.AppSettings;
+    using BookingAPI.Models.AuthenticationDto;
     using BookingAPI.Models.Models;
     using BookingAPI.Services.Interfaces;
-    using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Options;
     using Microsoft.IdentityModel.Tokens;
     using System;
@@ -17,12 +17,12 @@
     using System.Text;
     public class UserService : IUserService
     {
-        private readonly ApplicationDbContext _appDbContext;
         private readonly AppSettings _appSettings;
+        private readonly IUserRepository _userRepository;
 
-        public UserService(ApplicationDbContext appDbContext, IOptions<AppSettings> appSettings)
+        public UserService(IUserRepository userRepository, IOptions<AppSettings> appSettings)
         {
-            _appDbContext = appDbContext;
+            _userRepository = userRepository;
             _appSettings = appSettings.Value;
         }
 
@@ -31,7 +31,7 @@
             if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
                 return null;
 
-            var user = _appDbContext.Users.Include(c => c.Role).SingleOrDefault(x => x.Username == username);
+            User user = _userRepository.FindUser(username);
 
             // check if username exists
             if (user == null)
@@ -74,44 +74,49 @@
             };
         }
 
-        public IEnumerable<User> GetAll()
-        {
-            return _appDbContext.Users;
-        }
+        public IEnumerable<UserModel> GetAll() => _userRepository.GetAll;
 
-        public User GetById(int id)
-        {
-            return _appDbContext.Users.Find(id);
-        }
+        public UserModel GetById(int id) => _userRepository.GetById(id);
 
         public User Create(User user, string password)
         {
-            // validation
+            if (string.IsNullOrWhiteSpace(user.Username))
+                throw new AppException("Username is required");
+
             if (string.IsNullOrWhiteSpace(password))
                 throw new AppException("Password is required");
 
-            if (_appDbContext.Users.Any(x => x.Username == user.Username))
+            if (string.IsNullOrWhiteSpace(user.FirstName))
+                throw new AppException("FirstName is required");
+
+            if (string.IsNullOrWhiteSpace(user.LastName))
+                throw new AppException("LastName is required");
+
+            if (string.IsNullOrWhiteSpace(user.PhoneNumber))
+                throw new AppException("PhoneNumber is required");
+
+            if (_userRepository.Users.Any(x => x.Username == user.Username))
                 throw new AppException("Username \"" + user.Username + "\" is already taken");
 
             CreatePasswordHash(password, out byte[] passwordHash, out byte[] passwordSalt);
 
             // every user Gets role "User"
-            var role = _appDbContext.Roles.Where(x => x.Name == "User").FirstOrDefault();
+            var role = _userRepository.Roles.Where(x => x.Name == "User").FirstOrDefault();
 
             user.Role = role;
 
             user.PasswordHash = passwordHash;
             user.PasswordSalt = passwordSalt;
 
-            _appDbContext.Users.Add(user);
-            _appDbContext.SaveChanges();
+            _userRepository.Users.Add(user);
+            _userRepository.Save();
 
             return user;
         }
 
         public void Update(User userParam, string password = null)
         {
-            var user = _appDbContext.Users.Find(userParam.Id);
+            var user = _userRepository.Users.Find(userParam.Id);
             
             if (user == null)
                 throw new AppException("User not found");
@@ -120,7 +125,7 @@
             if (!string.IsNullOrWhiteSpace(userParam.Username) && userParam.Username != user.Username)
             {
                 // throw error if the new username is already taken
-                if (_appDbContext.Users.Any(x => x.Username == userParam.Username))
+                if (_userRepository.Users.Any(x => x.Username == userParam.Username))
                     throw new AppException("Username " + userParam.Username + " is already taken");
 
                 user.Username = userParam.Username;
@@ -145,17 +150,17 @@
                 user.PasswordSalt = passwordSalt;
             }
 
-            _appDbContext.Users.Update(user);
-            _appDbContext.SaveChanges();
+            _userRepository.Users.Update(user);
+            _userRepository.Save();
         }
 
         public void Delete(int id)
         {
-            var user = _appDbContext.Users.Find(id);
+            User user = _userRepository.Users.Find(id);
             if (user != null)
             {
-                _appDbContext.Users.Remove(user);
-                _appDbContext.SaveChanges();
+                _userRepository.Users.Remove(user);
+                _userRepository.Save();
             }
         }
 

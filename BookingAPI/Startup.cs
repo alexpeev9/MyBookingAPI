@@ -18,6 +18,8 @@ namespace BookingAPI
     using BookingAPI.Services;
     using Microsoft.AspNetCore.Http;
     using BookingAPI.Models.AppSettings;
+    using BookingApi.Data.Repositories.Interfaces;
+    using BookingApi.Data.Repositories;
 
     public class Startup
     {
@@ -42,14 +44,14 @@ namespace BookingAPI
             // configure strongly typed settings object
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-           
+
             // configure strongly typed settings objects
-            var appSettingsSection = Configuration.GetSection("AppSettings");
+            IConfigurationSection appSettingsSection = Configuration.GetSection("AppSettings");
             services.Configure<AppSettings>(appSettingsSection);
 
             // configure jwt authentication
-            var appSettings = appSettingsSection.Get<AppSettings>();
-            var key = Encoding.ASCII.GetBytes(appSettings.Secret);
+            AppSettings appSettings = appSettingsSection.Get<AppSettings>();
+            byte[] key = Encoding.ASCII.GetBytes(appSettings.Secret);
             services.AddAuthentication(x =>
             {
                 x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -86,14 +88,21 @@ namespace BookingAPI
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             // configure DI for application services
-            services.AddScoped<IUserService, UserService>();
-            services.AddScoped<ILocationTypeService, LocationTypeService>();
-            services.AddScoped<IFacilityService, FacilityService>();
-            services.AddScoped<IHotelService, HotelService>();
-            services.AddScoped<IHotelFacilityService, HotelFacilityService>();
 
+            // services
+            services.AddTransient<IUserService, UserService>();
+            services.AddTransient<ILocationTypeService, LocationTypeService>();
+            services.AddTransient<IFacilityService, FacilityService>();
+            services.AddTransient<IHotelService, HotelService>();
+            services.AddTransient<IHotelFacilityService, HotelFacilityService>();
+
+            // repositories
+            services.AddTransient<IUserRepository,UserRepository>();
+            services.AddTransient<ILocationTypeRepository, LocationTypeRepository>();
+            services.AddTransient<IFacilityRepository, FacilityRepository>();
+            services.AddTransient<IHotelRepository, HotelRepository>();
+            services.AddTransient<IHotelFacilityRepository, HotelFacilityRepository>();
         }
-
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IServiceProvider serviceProvider, IWebHostEnvironment env)
         {

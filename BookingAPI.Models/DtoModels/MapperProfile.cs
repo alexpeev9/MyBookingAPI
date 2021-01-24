@@ -28,6 +28,7 @@
             CreateMap<HotelUpdateModel, Hotel>();
 
             //HotelFacility
+            CreateMap<HotelFacility, HotelFacilityModel>();
             CreateMap<HotelFacilityCreateModel, HotelFacility>();
 
             // Facility

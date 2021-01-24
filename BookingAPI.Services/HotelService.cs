@@ -1,6 +1,8 @@
 ﻿namespace BookingAPI.Services
 {
     using BookingApi.Data;
+    using BookingApi.Data.Exceptions;
+    using BookingApi.Data.Repositories.Interfaces;
     using BookingAPI.Models.DtoModels.HotelDto;
     using BookingAPI.Models.Models;
     using BookingAPI.Services.Interfaces;
@@ -9,91 +11,74 @@
     using System.Linq;
     public class HotelService : IHotelService
     {
-        private readonly ApplicationDbContext _appDbContext;
-        public HotelService(ApplicationDbContext appDbContext)
+        private readonly IHotelRepository _hotelRepository;
+        public HotelService(IHotelRepository hotelRepository)
         {
-            _appDbContext = appDbContext;
+            _hotelRepository = hotelRepository;
         }
-        public List<HotelModel> GetAll()
-        {
-            var facilities = _appDbContext.Hotels
-                .Include(x => x.User)
-                .Include(x => x.LocationType)
-                .Include(x => x.HotelFacilities)
-                .ThenInclude(x => x.Facility)
-                .Select(x => new HotelModel()
-                {
-                    Id = x.Id,
-                    Name = x.Name,
-                    Address = x.Address,
-                    PricePerNight = x.PricePerNight,
-                    User = x.User,
-                    LocationType = x.LocationType,
-                    Facilities = x.HotelFacilities.Select(z => z.Facility.Name).ToList(),
-                }).ToList();
-
-            return facilities;
-        }
-        public HotelModel GetById(int id)
-        {
-            var facilities = _appDbContext.Hotels
-                .Include(x => x.HotelFacilities)
-                .ThenInclude(x => x.Hotel)
-                .Select(x => new HotelModel()
-                {
-                    Id = x.Id,
-                    Name = x.Name,
-                    Address = x.Address,
-                    PricePerNight = x.PricePerNight,
-                    User = x.User,
-                    LocationType = x.LocationType,
-                    Facilities = x.HotelFacilities.Select(z => z.Facility.Name).ToList()
-                }).Where(x => x.Id == id).SingleOrDefault();
-
-            return facilities;
-        }
+        public List<HotelModel> GetAll() => _hotelRepository.GetAll;
+        public HotelModel GetById(int id) => _hotelRepository.GetById(id);
         public Hotel Create(Hotel hotel, int userId)
         {
-            var user = _appDbContext.Users.Where(x => x.Id == userId).FirstOrDefault();
-            hotel.User = user;
-            hotel.LocationType = _appDbContext.LocationTypes.Where(x => x.Id == hotel.LocationTypeId).FirstOrDefault();
 
-            var facilities = _appDbContext.Hotels
-                                                .Include(x => x.LocationType)
-                                                .ThenInclude( x => x.Hotels)
-                                                .Include(x => x.HotelFacilities)
-                                                .ThenInclude(x => x.Hotel)
-                                                .Where(x => x.Name == hotel.Name).SingleOrDefault();
+            if (string.IsNullOrWhiteSpace(hotel.Name))
+                throw new AppException("Name is required");
 
-            _appDbContext.Hotels.Add(hotel);
-            _appDbContext.SaveChanges();
+            if (string.IsNullOrWhiteSpace(hotel.Info))
+                throw new AppException("Info is required");
+
+            if (string.IsNullOrWhiteSpace(hotel.Address))
+                throw new AppException("Name is required");
+
+            if (hotel.PricePerNight == 0m)
+                throw new AppException("Price is required");
+
+            if (hotel.LocationTypeId == 0)
+                throw new AppException("LocationTypeId is required");
+
+            hotel.User = _hotelRepository.FindUser(userId);
+            hotel.LocationType = _hotelRepository.FindLocation(hotel.Id);
+
+            _hotelRepository.Hotels.Add(hotel);
+            _hotelRepository.Save();
             return hotel;
         }
 
         public void Update(Hotel hotelParam)
         {
-            var hotel = _appDbContext.Hotels.Find(hotelParam.Id);
-            
-            // za vsqko edno
-            hotel.Name = hotelParam.Name;
-            hotel.Info = hotel.Info;
-            hotel.PricePerNight = hotel.PricePerNight;
-            hotel.Address = hotelParam.Address;
-            hotel.LocationTypeId = hotelParam.LocationTypeId;
+            var hotel = _hotelRepository.Hotels
+                                              .Include(x => x.LocationType)
+                                              .Where(x => x.Id == hotelParam.Id).SingleOrDefault();
 
-            _appDbContext.Hotels.Update(hotel);
-            _appDbContext.SaveChanges();
+            if (!string.IsNullOrWhiteSpace(hotelParam.Name))
+                hotel.Name = hotelParam.Name;
+
+            if (!string.IsNullOrWhiteSpace(hotelParam.Info))
+                hotel.Info = hotel.Info;
+
+            if (hotelParam.PricePerNight == 0m)
+                hotel.PricePerNight = hotel.PricePerNight;
+
+            if (!string.IsNullOrWhiteSpace(hotelParam.Address))
+                hotel.Address = hotelParam.Address;
+
+            if (hotelParam.LocationTypeId != 0)
+                hotel.LocationTypeId = hotelParam.LocationTypeId;
+
+            _hotelRepository.Hotels.Update(hotel);
+            _hotelRepository.Save();
         }
 
         public void Delete(int id)
         {
-            var hotel = _appDbContext.Hotels.Find(id);
+            var hotel = _hotelRepository.Hotels.Find(id);
 
             if (hotel != null)
             {
-                _appDbContext.Hotels.Remove(hotel);
-                _appDbContext.SaveChanges();
+                _hotelRepository.Hotels.Remove(hotel);
+                _hotelRepository.Save();
             }
         }
+        public Hotel FindHotel(int id) => _hotelRepository.Hotels.Include(x => x.User).SingleOrDefault(x => x.Id == id);
     }
 }

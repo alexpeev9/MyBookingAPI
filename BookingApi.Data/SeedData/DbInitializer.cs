@@ -17,9 +17,9 @@
             context.SaveChanges();
 
            if (!context.Facilities.Any())
-                {
-                    context.Facilities.AddRange(Facilities.Select(c => c.Value));
-                }
+            {
+                context.Facilities.AddRange(Facilities.Select(c => c.Value));
+            }
             context.SaveChanges();
 
             if (!context.LocationTypes.Any())

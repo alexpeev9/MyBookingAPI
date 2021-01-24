@@ -11,12 +11,12 @@
 
     [ApiController]
     [Route("[controller]")]
-    public class LocationTypeController : ControllerBase
+    public class LocationTypesController : ControllerBase
     {
         private readonly ILocationTypeService _locationTypeService;
         private readonly IMapper _mapper;
         
-        public LocationTypeController(ILocationTypeService locationTypeService, IMapper mapper)
+        public LocationTypesController(ILocationTypeService locationTypeService, IMapper mapper)
         {
             _locationTypeService = locationTypeService;
             _mapper = mapper;
@@ -44,14 +44,14 @@
         [HttpPost]
         public IActionResult CreateFacility([FromBody] LocationTypeCreateModel model)
         {
-            // map model to entity
-            var locationType = _mapper.Map<LocationType>(model);
 
             try
             {
+                // map model to entity
+                var locationType = _mapper.Map<LocationType>(model);
                 // create user
                 _locationTypeService.Create(locationType);
-                return Ok($"You have created successfully a facility. \n Name: {locationType.Name} \n Info: {locationType.Info} \n {locationType}");
+                return Ok($"You have created successfully a facility. \n Name: {locationType.Name} \n Info: {locationType.Info} \n");
             }
             catch (AppException ex)
             {

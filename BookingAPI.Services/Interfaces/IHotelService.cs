@@ -10,5 +10,6 @@
         Hotel Create(Hotel hotel, int userId);
         void Update(Hotel hotel);
         void Delete(int id);
+        Hotel FindHotel(int id);
     }
 }

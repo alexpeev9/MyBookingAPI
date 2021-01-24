@@ -11,12 +11,12 @@
 
     [ApiController]
     [Route("[controller]")]
-    public class FacilityController : ControllerBase
+    public class FacilitiesController : ControllerBase
     {
         private readonly IFacilityService _facilityService;
         private readonly IMapper _mapper;
 
-        public FacilityController(IFacilityService facilityService, IMapper mapper)
+        public FacilitiesController(IFacilityService facilityService, IMapper mapper)
         {
             _facilityService = facilityService;
             _mapper = mapper;

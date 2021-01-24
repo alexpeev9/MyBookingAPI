@@ -6,10 +6,8 @@
     using System.Text.Json.Serialization;
     public class FacilityUpdateModel
     {
-        [Required]
         public string Name { get; set; }
 
-        [Required]
         public string Info { get; set; }
 
         [JsonIgnore]

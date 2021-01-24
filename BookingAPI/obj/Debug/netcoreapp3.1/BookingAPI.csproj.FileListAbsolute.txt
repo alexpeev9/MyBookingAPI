@@ -73,4 +73,3 @@ C:\Users\User\Desktop\Final\BookingAPI\BookingAPI\bin\Debug\netcoreapp3.1\runtim
 C:\Users\User\Desktop\Final\BookingAPI\BookingAPI\bin\Debug\netcoreapp3.1\Microsoft.DotNet.PlatformAbstractions.dll
 C:\Users\User\Desktop\Final\BookingAPI\BookingAPI\bin\Debug\netcoreapp3.1\Microsoft.Extensions.DependencyModel.dll
 C:\Users\User\Desktop\Final\BookingAPI\BookingAPI\bin\Debug\netcoreapp3.1\AutoMapper.Collection.dll
-C:\Users\User\Desktop\Final\BookingAPI\BookingAPI\bin\Debug\netcoreapp3.1\libman.json

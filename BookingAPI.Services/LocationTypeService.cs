@@ -1,66 +1,56 @@
 ﻿namespace BookingAPI.Services
 {
-    using BookingApi.Data;
+    using BookingApi.Data.Exceptions;
+    using BookingApi.Data.Repositories.Interfaces;
     using BookingAPI.Models.DtoModels.LocationTypeDto;
     using BookingAPI.Models.Models;
     using BookingAPI.Services.Interfaces;
-    using Microsoft.EntityFrameworkCore;
     using System.Collections.Generic;
-    using System.Linq;
 
     public class LocationTypeService : ILocationTypeService
     {
-        private readonly ApplicationDbContext _appDbContext;
+        private readonly ILocationTypeRepository _locationTypeRepository;
 
-        public LocationTypeService(ApplicationDbContext appDbContext)
+        public LocationTypeService( ILocationTypeRepository locationTypeRepository )
         {
-            _appDbContext = appDbContext;
+            _locationTypeRepository = locationTypeRepository;
         }
-        public List<LocationTypeModel> GetAll()
-        {
-            return _appDbContext.LocationTypes.Select(x => new LocationTypeModel()
-            {
-                Id = x.Id,
-                Name = x.Name,
-                Info = x.Info,
-                Hotels = x.Hotels.Select(z => z.Name).ToList(),
-            }).ToList();
-        }
+        public List<LocationTypeModel> GetAll() => _locationTypeRepository.GetAllLocations;
 
-        public LocationTypeModel GetById(int Id)
-        {
-            return _appDbContext.LocationTypes
-                .Include(x => x.Hotels)
-                .Select(x => new LocationTypeModel()
-                {
-                    Id = x.Id,
-                    Name = x.Name,
-                    Info = x.Info,
-                    Hotels = x.Hotels.Select(z => z.Name).ToList(),
-                }).Where( x=>x.Id == Id).SingleOrDefault();
-        }
+        public LocationTypeModel GetById(int Id) => _locationTypeRepository.GetLocationById(Id);
         public LocationType Create(LocationType location)
         {
-                _appDbContext.LocationTypes.Add(location);
-                _appDbContext.SaveChanges();
+            if (string.IsNullOrWhiteSpace(location.Name))
+                throw new AppException("Name is required");
+
+            if (string.IsNullOrWhiteSpace(location.Info))
+                throw new AppException("Info is required");
+
+                _locationTypeRepository.Locations.Add(location);
+                _locationTypeRepository.Save();
                 return location;
         }
         public void Update(LocationType locationParam)
         {
-            var location = _appDbContext.LocationTypes.Find(locationParam.Id);
-            location.Name = locationParam.Name;
-            location.Info = locationParam.Info;
-            _appDbContext.LocationTypes.Update(location);
-            _appDbContext.SaveChanges();          
+            var location = _locationTypeRepository.Locations.Find(locationParam.Id);
+            if (!string.IsNullOrWhiteSpace(locationParam.Name))
+                location.Name = locationParam.Name;
+
+            if (!string.IsNullOrWhiteSpace(locationParam.Info))
+                location.Info = locationParam.Info;
+
+            _locationTypeRepository.Locations.Update(location);
+            _locationTypeRepository.Save();
         }
         public void Delete(int ID)
         {
-            var locationType = _appDbContext.LocationTypes.Find(ID);
-            if (locationType != null)
-            {
-                _appDbContext.LocationTypes.Remove(locationType);
-                _appDbContext.SaveChanges();
-            }
+            var locationType = _locationTypeRepository.Locations.Find(ID);
+            if (locationType == null)
+                throw new AppException("This Id doesn't exist");
+
+                _locationTypeRepository.Locations.Remove(locationType);
+                _locationTypeRepository.Save();
+
         }
     }
 }

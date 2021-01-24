@@ -53,7 +53,7 @@
                 return BadRequest(new { message = ex.Message });
             }
         }
-        //[Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public IActionResult GetAll()
         {
@@ -62,6 +62,7 @@
             return Ok(model);
         }
 
+        [Authorize]
         [HttpGet("{id}")]
         public IActionResult GetById(int id)
         {
@@ -108,7 +109,7 @@
                 return Forbid();
 
             _userService.Delete(id);
-            return Ok();
+            return Ok("Deleted!");
         }
     }
 }

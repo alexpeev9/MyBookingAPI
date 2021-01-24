@@ -7,9 +7,7 @@
 
     public class LocationTypeCreateModel
     {
-        [Required]
         public string Name { get; set; }
-        [Required]
         public string Info { get; set; }
         
         [JsonIgnore]
